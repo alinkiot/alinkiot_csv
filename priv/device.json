@@ -1,0 +1,16 @@
+{
+  "fields": [
+    {
+      "name": "device_id",
+      "type": "string",
+      "title": "设备地址",
+      "description": "Unique identifier for the device"
+    },
+    {
+      "name": "device_name",
+      "type": "string",
+      "title": "设备名称",
+      "description": "Name of the device"
+    }
+  ]
+}
