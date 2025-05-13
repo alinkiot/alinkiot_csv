@@ -1,5 +1,5 @@
 -module(alinkiot_csv).
--export([export_csv/3, import_csv/2]).
+-export([export_csv/3, export_csv/4, import_csv/2]).
 -export([read_json_config/1]).
 
 -include_lib("kernel/include/file.hrl").
@@ -11,6 +11,9 @@
 %%   Data - list of maps with device data
 export_csv(Name, Dir, Data) ->
     Config = read_json_config(Name),
+    export_csv(Name, Config, Dir, Data).
+
+export_csv(Name, Config, Dir, Data) ->
     Fields = maps:get(<<"fields">>, Config),
 
     HeaderLines = [
@@ -54,6 +57,9 @@ format_data_row(Row, Fields) ->
 %% Returns: list of maps with imported data
 import_csv(Name, FilePath) ->
     Config = read_json_config(Name),
+    import_csv_by_config(Config, FilePath).
+
+import_csv_by_config(Config, FilePath) ->
     Fields = maps:get(<<"fields">>, Config),
     {ok, File} = file:open(FilePath, [read]),
     FieldNames = read_data_header(File, Fields),
