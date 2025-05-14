@@ -1,0 +1,11 @@
+字段说明,,,
+字段名称,字段标识,类型,说明
+设备地址,device_id,string,Unique identifier for the device
+设备名称,device_name,string,Name of the device
+,,,
+设备地址,设备名称,
+000001,A0000001,
+000002,A0000002,
+000003,A0000002,
+000004,A0000002,
+000005,A0000002,

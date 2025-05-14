@@ -1,5 +1,5 @@
 -module(alinkiot_csv).
--export([export_csv/3, export_csv/4, import_csv/2]).
+-export([export_csv/3, export_csv/4, import_csv/2, get_template/2]).
 -export([read_json_config/1]).
 
 -include_lib("kernel/include/file.hrl").
@@ -37,8 +37,8 @@ format_field_description(#{<<"title">> := Title, <<"name">> := Name,
     [unicode:characters_to_list(Title), ",", unicode:characters_to_list(Name), ",",
         unicode:characters_to_list(Type), ",", unicode:characters_to_list(Desc), "\n"].
 
-format_field_header(#{<<"name">> := Name}) ->
-    binary_to_list(Name) ++ ",".
+format_field_header(#{<<"title">> := Title}) ->
+    unicode:characters_to_list(Title) ++ ",".
 
 format_data_row(Row, Fields) ->
     [case maps:get(<<"name">>, Field, undefined) of
@@ -58,6 +58,19 @@ format_data_row(Row, Fields) ->
 import_csv(Name, FilePath) ->
     Config = read_json_config(Name),
     import_csv_by_config(Config, FilePath).
+
+%% 产生导入模板 csv
+get_template(Name, Dir) ->
+    Config = read_json_config(Name),
+    Fields = maps:get(<<"fields">>, Config),
+    HeaderLines = [
+        [format_field_header(Field) || Field <- Fields],
+        "\n"
+    ],
+    FileName = filename:join([Dir, Name ++ "_template.csv"]),
+    filelib:ensure_dir(FileName),
+    file:write_file(FileName, unicode:characters_to_binary([HeaderLines])).    
+
 
 import_csv_by_config(Config, FilePath) ->
     Fields = maps:get(<<"fields">>, Config),

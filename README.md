@@ -1,7 +1,7 @@
 alinkiot_csv
 =====
 
-An OTP application
+import and export csv file for alinkiot
 ## export
 -----
 ```erl
@@ -14,20 +14,31 @@ Data = [
 ].
 alinkiot_csv:export_csv("device", "csv/", Data).
 ```
-export 
+device.csv
 ```csv
 字段说明,,,
 字段名称,字段标识,类型,说明
 设备地址,device_id,string,Unique identifier for the device
 设备名称,device_name,string,Name of the device
 ,,,
-device_id,device_name,,
+设备地址,设备名称,,
 000001,A0000001,,
 000002,A0000002,,
 ```
 
+## template
+-----
+```erlang
+alinkiot_csv:get_template("device", "csv/").
+```
+device_template.csv
+```csv
+设备地址,设备名称,,
+```
+
 ## import
 -----
+device.csv
 ```csv
 设备地址,设备名称,,
 000001,A0000001,,
