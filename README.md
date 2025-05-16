@@ -5,14 +5,8 @@ import and export csv file for alinkiot
 ## export
 -----
 ```erl
-Data = [
-  #{device_id => "000001", device_name => "A0000001"}, 
-  #{device_id => "000002", device_name => "A0000002"},
-  #{device_id => "000003", device_name => "A0000002"},
-  #{device_id => "000004", device_name => "A0000002"},
-  #{device_id => "000005", device_name => "A0000002"}
-].
-alinkiot_csv:export_csv("device", "csv/", Data).
+Data = [#{ device_id => integer_to_list(I), device_name => "A0" ++ integer_to_list(I) }  || I <- lists:seq(1, 10000)].
+alinkiot_csv:export("device", Data).
 ```
 device.csv
 ```csv
@@ -54,5 +48,5 @@ device.csv
 ```
 
 ```erlang
-alinkiot_csv:import_csv("device", "device.csv").
+alinkiot_csv:import("device", "device.csv").
 ```

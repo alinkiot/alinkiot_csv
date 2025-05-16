@@ -1,5 +1,5 @@
 -module(alinkiot_csv).
--export([export_csv/3, export_csv/4, import_csv/2, get_template/2]).
+-export([export/2, export_by_config/2, import/2,  import_by_config/2, get_template/1]).
 -export([read_json_config/1]).
 
 -include_lib("kernel/include/file.hrl").
@@ -9,13 +9,14 @@
 %% Parameters:
 %%   Name - filename (without extension)
 %%   Data - list of maps with device data
-export_csv(Name, Dir, Data) ->
+export(Name, Data) ->
     Config = read_json_config(Name),
-    export_csv(Name, Config, Dir, Data).
+    Bin = export_by_config(Config, Data),
+    {ok, Bin}.
 
-export_csv(Name, Config, Dir, Data) ->
+
+export_by_config(Config, Data) ->
     Fields = maps:get(<<"fields">>, Config),
-
     HeaderLines = [
         "字段说明,,,\n",
         "字段名称,字段标识,类型,说明\n",
@@ -24,13 +25,10 @@ export_csv(Name, Config, Dir, Data) ->
         [format_field_header(Field) || Field <- Fields],
         "\n"
     ],
-
     DataLines = [
         [format_data_row(Row, Fields) || Row <- Data]
     ],
-    FileName = filename:join([Dir, Name ++ ".csv"]),
-    filelib:ensure_dir(FileName),
-    file:write_file(FileName, unicode:characters_to_binary([HeaderLines, DataLines])).
+    unicode:characters_to_binary([HeaderLines, DataLines]).
 
 format_field_description(#{<<"title">> := Title, <<"name">> := Name,
     <<"type">> := Type, <<"description">> := Desc}) ->
@@ -55,24 +53,22 @@ format_data_row(Row, Fields) ->
 %%   Name - filename (without extension)
 %%   FilePath - path to CSV file
 %% Returns: list of maps with imported data
-import_csv(Name, FilePath) ->
+import(Name, FilePath) ->
     Config = read_json_config(Name),
-    import_csv_by_config(Config, FilePath).
+    import_by_config(Config, FilePath).
 
 %% 产生导入模板 csv
-get_template(Name, Dir) ->
+get_template(Name) ->
     Config = read_json_config(Name),
     Fields = maps:get(<<"fields">>, Config),
     HeaderLines = [
         [format_field_header(Field) || Field <- Fields],
         "\n"
     ],
-    FileName = filename:join([Dir, Name ++ "_template.csv"]),
-    filelib:ensure_dir(FileName),
-    file:write_file(FileName, unicode:characters_to_binary([HeaderLines])).    
+    {ok, unicode:characters_to_binary([HeaderLines])}.    
 
 
-import_csv_by_config(Config, FilePath) ->
+import_by_config(Config, FilePath) ->
     Fields = maps:get(<<"fields">>, Config),
     {ok, File} = file:open(FilePath, [read]),
     FieldNames = read_data_header(File, Fields),
