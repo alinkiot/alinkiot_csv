@@ -1,5 +1,14 @@
 -module(alinkiot_csv).
--export([export/2, export/3, export_by_config/3, import/2,  import_by_config/2, get_template/1]).
+-export([
+    export/2, 
+    export/3, 
+    export_by_config/3, 
+    import/2,  
+    import_by_config/2, 
+    import_by_config/3,
+    get_template/1
+]).
+
 -export([read_json_config/1]).
 
 -include_lib("kernel/include/file.hrl").
@@ -68,12 +77,15 @@ get_template(Name) ->
     ],
     {ok, unicode:characters_to_binary([HeaderLines])}.    
 
-
 import_by_config(Config, FilePath) ->
+    Format = fun(_, Value) -> Value  end,
+    import_by_config(Config, FilePath, Format).
+
+import_by_config(Config, FilePath, Format) ->
     Fields = maps:get(<<"fields">>, Config),
     {ok, File} = file:open(FilePath, [read]),
     FieldNames = read_data_header(File, Fields),
-    Data = read_data_lines(File, FieldNames),
+    Data = read_data_lines(File, FieldNames, Format),
     file:close(File),
     Data.
 
@@ -96,20 +108,20 @@ get_field_name(Title, [#{<<"title">> := Title } = Field | _], Acc) ->
 get_field_name(Title, [_ | Rest], Acc) ->
     get_field_name(Title, Rest, Acc).
 
-read_data_lines(File, FieldNames) ->
+read_data_lines(File, FieldNames, Format) ->
     case io:get_line(File, '') of
         eof -> [];
         "\n" -> [];
         Line ->
             Values = binary:split(iolist_to_binary(Line), <<",">>, [global]),
-            Row = lists_zip(FieldNames, Values),
-            [maps:from_list(Row) | read_data_lines(File, FieldNames)]
+            Row = lists_zip(FieldNames, Values, Format),
+            [maps:from_list(Row) | read_data_lines(File, FieldNames, Format)]
     end.
 
-lists_zip(_, []) -> [];
-lists_zip([], _) -> [];
-lists_zip([#{ <<"name">> := Name, <<"type">> := Type } | Fields], [Value | Values]) ->
-    [{Name, format_value(Type, Value)} | lists_zip(Fields, Values)].
+lists_zip(_, [], _Format) -> [];
+lists_zip([], _, _) -> [];
+lists_zip([#{ <<"name">> := Name, <<"type">> := Type } | Fields], [Value | Values], Format) ->
+    [{Name, Format(Name, format_value(Type, Value))} | lists_zip(Fields, Values, Format)].
 
 
 format_value(<<"int">>, Value) ->

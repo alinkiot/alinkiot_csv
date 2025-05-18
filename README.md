@@ -23,7 +23,7 @@ device.csv
 ## template
 -----
 ```erlang
-alinkiot_csv:get_template("device", "csv/").
+alinkiot_csv:get_template("device").
 ```
 device_template.csv
 ```csv
