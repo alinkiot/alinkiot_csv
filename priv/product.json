@@ -1,0 +1,94 @@
+{
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "title": "产品id",
+        "description": "Unique identifier for the product"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "title": "产品名字",
+        "description": "Name of the product"
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "title": "检测类型",
+        "description": "Product detection type",
+        "dict": "iot_product_type"
+      },
+      {
+        "name": "nodetype",
+        "type": "string",
+        "title": "设备类型",
+        "description": "Type of device/node",
+        "dict": "iot_node_type"
+      },
+      {
+        "name": "netType",
+        "type": "string",
+        "title": "网络类型",
+        "description": "Network type used by the product",
+        "dict": "iot_net_type"
+      },
+      {
+        "name": "protocol",
+        "type": "string",
+        "title": "连接协议",
+        "description": "Connection protocol used by the product",
+        "dict": "iot_protocol_id"
+      },
+      {
+        "name": "pk",
+        "type": "string",
+        "title": "key",
+        "description": "Product key"
+      },
+      {
+        "name": "ps",
+        "type": "string",
+        "title": "secret",
+        "description": "Product secret"
+      },
+      {
+        "name": "autoRegister",
+        "type": "boolean",
+        "title": "是否可以自动注册",
+        "description": "Whether the product supports auto-registration",
+        "dict": "iot_auto_register"
+      },
+      {
+        "name": "thing",
+        "type": "object",
+        "title": "物模型",
+        "description": "Thing model definition"
+      },
+      {
+        "name": "status",
+        "type": "integer",
+        "title": "产品状态",
+        "description": "Status of the product",
+        "dict": "sys_normal_disable"
+      },
+      {
+        "name": "createTime",
+        "type": "string",
+        "title": "创建时间",
+        "description": "Timestamp when the product was created"
+      },
+      {
+        "name": "config",
+        "type": "object",
+        "title": "扩展参数",
+        "description": "Extended configuration parameters"
+      },
+      {
+        "name": "img",
+        "type": "string",
+        "title": "产品图片",
+        "description": "Image URL or reference for the product"
+      }
+    ]
+  }

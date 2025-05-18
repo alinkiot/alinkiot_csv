@@ -1,0 +1,6 @@
+{
+    "sys_normal_disable":[
+        {"code":"0", "name":"正常"},
+        {"code":"1", "name":"禁用"}
+    ]
+}

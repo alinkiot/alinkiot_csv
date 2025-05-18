@@ -1,5 +1,5 @@
 -module(alinkiot_csv).
--export([export/2, export_by_config/2, import/2,  import_by_config/2, get_template/1]).
+-export([export/2, export/3, export_by_config/3, import/2,  import_by_config/2, get_template/1]).
 -export([read_json_config/1]).
 
 -include_lib("kernel/include/file.hrl").
@@ -10,12 +10,15 @@
 %%   Name - filename (without extension)
 %%   Data - list of maps with device data
 export(Name, Data) ->
+    Format = fun(_, Value) -> Value  end,
+    export(Name, Data, Format).
+
+export(Name, Data, Format) ->
     Config = read_json_config(Name),
-    Bin = export_by_config(Config, Data),
+    Bin = export_by_config(Config, Data, Format),
     {ok, Bin}.
 
-
-export_by_config(Config, Data) ->
+export_by_config(Config, Data, Format) ->
     Fields = maps:get(<<"fields">>, Config),
     HeaderLines = [
         "字段说明,,,\n",
@@ -26,7 +29,7 @@ export_by_config(Config, Data) ->
         "\n"
     ],
     DataLines = [
-        [format_data_row(Row, Fields) || Row <- Data]
+        [format_data_row(Row, Fields, Format) || Row <- Data]
     ],
     unicode:characters_to_binary([HeaderLines, DataLines]).
 
@@ -38,14 +41,12 @@ format_field_description(#{<<"title">> := Title, <<"name">> := Name,
 format_field_header(#{<<"title">> := Title}) ->
     unicode:characters_to_list(Title) ++ ",".
 
-format_data_row(Row, Fields) ->
+format_data_row(Row, Fields, Format) ->
     [case maps:get(<<"name">>, Field, undefined) of
          undefined -> "";
          FieldName ->
-             case maps:get(binary_to_atom(FieldName, utf8), Row, "") of
-                 undefined -> "";
-                 Value -> to_string(Value)
-             end
+             Value = maps:get(FieldName, Row, ""),
+             to_string(Format(FieldName, Value))
      end ++ "," || Field <- Fields] ++ "\n".
 
 %% Import CSV function

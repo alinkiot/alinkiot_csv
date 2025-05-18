@@ -1,16 +1,90 @@
 {
   "fields": [
     {
-      "name": "device_id",
+      "name": "addr",
       "type": "string",
       "title": "设备地址",
-      "description": "Unique identifier for the device"
+      "description": "Address of the device"
     },
     {
-      "name": "device_name",
+      "name": "name",
       "type": "string",
-      "title": "设备名称",
+      "title": "设备名字",
       "description": "Name of the device"
+    },
+    {
+      "name": "product",
+      "type": "string",
+      "title": "所属产品id",
+      "description": "ID of the product this device belongs to"
+    },
+    {
+      "name": "dk",
+      "type": "string",
+      "title": "key",
+      "description": "Device key"
+    },
+    {
+      "name": "ds",
+      "type": "string",
+      "title": "secret",
+      "description": "Device secret"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "title": "状态",
+      "description": "Current status of the device"
+    },
+    {
+      "name": "lng",
+      "type": "number",
+      "title": "经度",
+      "description": "Longitude coordinate of the device",
+      "precision": 2
+    },
+    {
+      "name": "lat",
+      "type": "number",
+      "title": "纬度",
+      "description": "Latitude coordinate of the device",
+      "precision": 2
+    },
+    {
+      "name": "config",
+      "type": "object",
+      "title": "扩展参数",
+      "description": "Extended configuration parameters"
+    },
+    {
+      "name": "location",
+      "type": "string",
+      "title": "所在位置",
+      "description": "Physical location of the device"
+    },
+    {
+      "name": "createTime",
+      "type": "string",
+      "title": "创建时间",
+      "description": "Timestamp when the device was created"
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "title": "所在国家",
+      "description": "Country where the device is located"
+    },
+    {
+      "name": "province",
+      "type": "string",
+      "title": "所在省份",
+      "description": "Province where the device is located"
+    },
+    {
+      "name": "district",
+      "type": "string",
+      "title": "所在区域",
+      "description": "District where the device is located"
     }
   ]
 }

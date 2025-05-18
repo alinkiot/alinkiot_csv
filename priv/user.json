@@ -1,0 +1,100 @@
+{
+    "fields": [
+      {
+        "name": "userId",
+        "type": "string",
+        "title": "用户ID",
+        "description": "Unique identifier for the user"
+      },
+      {
+        "name": "deptId",
+        "type": "string",
+        "title": "所属部门id",
+        "description": "Department ID the user belongs to"
+      },
+      {
+        "name": "userName",
+        "type": "string",
+        "title": "用户名",
+        "description": "Login username"
+      },
+      {
+        "name": "nickName",
+        "type": "string",
+        "title": "昵称",
+        "description": "User's display name/nickname"
+      },
+      {
+        "name": "userType",
+        "type": "string",
+        "title": "用户类型",
+        "description": "Type/role of the user"
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "title": "邮箱",
+        "description": "User's email address"
+      },
+      {
+        "name": "phonenumber",
+        "type": "string",
+        "title": "手机号",
+        "description": "User's phone number"
+      },
+      {
+        "name": "sex",
+        "type": "string",
+        "title": "用户性别",
+        "description": "User's gender"
+      },
+      {
+        "name": "avatar",
+        "type": "string",
+        "title": "用户头像",
+        "description": "URL or path to user's avatar image"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "title": "用户状态",
+        "description": "Current status of the user account"
+      },
+      {
+        "name": "delFlag",
+        "type": "boolean",
+        "title": "删除状态",
+        "description": "Whether the user is marked as deleted"
+      },
+      {
+        "name": "createBy",
+        "type": "string",
+        "title": "创建者",
+        "description": "User who created this record"
+      },
+      {
+        "name": "createTime",
+        "type": "string",
+        "title": "创建时间",
+        "description": "Timestamp when the user was created"
+      },
+      {
+        "name": "updateBy",
+        "type": "string",
+        "title": "更新者",
+        "description": "User who last updated this record"
+      },
+      {
+        "name": "updateTime",
+        "type": "string",
+        "title": "更新时间",
+        "description": "Timestamp when the user was last updated"
+      },
+      {
+        "name": "remark",
+        "type": "string",
+        "title": "备注",
+        "description": "Additional remarks or notes"
+      }
+    ]
+  }
